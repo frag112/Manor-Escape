@@ -5,21 +5,19 @@ using Cinemachine;
 
 public class CameraSwitcher : MonoBehaviour
 {
-    [SerializeField] CinemachineVirtualCamera _firstCamera, _secondCamera;
+    [SerializeField] CinemachineVirtualCamera _firstCamera;
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            if (_firstCamera.Priority< 10)
-            {
-                _firstCamera.Priority = 10;
-                _secondCamera.Priority = 1;
-            }
-            else
-            {
-                _secondCamera.Priority = 10;
-                _firstCamera.Priority = 1;
-            }
+            _firstCamera.Priority = 10;
+        }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            _firstCamera.Priority = 0;
         }
     }
 }

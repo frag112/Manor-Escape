@@ -24,6 +24,8 @@ public class PlayerAnimationStateController : MonoBehaviour
     private bool _dead = false;
     [SerializeField] private CinemachineVirtualCamera _deathCam;
     [SerializeField] private GameObject _deathText;
+    [SerializeField] private AudioClip[] _stepSounds;
+    [SerializeField] private AudioSource _stepSound;
 
     private void Awake()
     {
@@ -156,6 +158,11 @@ public class PlayerAnimationStateController : MonoBehaviour
         //    _deathText.transform.localScale = _deathText.transform.localScale * (i/100);
         //    yield return new WaitForEndOfFrame();
         //}
+
+    }
+    public void PlayStepsSounds()
+    {
+            _stepSound.PlayOneShot(_stepSounds[Random.Range(0, _stepSounds.Length-1)]);
 
     }
     void HandleAiming()
