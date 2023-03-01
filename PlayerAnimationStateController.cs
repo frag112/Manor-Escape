@@ -19,13 +19,14 @@ public class PlayerAnimationStateController : MonoBehaviour
     float _velocity, _turning, _playerSpeed = 1.0f;
 
     bool _runPressed, _aimingPressed, _turnTrigger, _shootingPressed;
-   
+    public bool _canshoot = true;
 
     private bool _dead = false;
     [SerializeField] private CinemachineVirtualCamera _deathCam;
     [SerializeField] private GameObject _deathText;
     [SerializeField] private AudioClip[] _stepSounds;
     [SerializeField] private AudioSource _stepSound;
+    [SerializeField] private List<Item> _items;
 
     private void Awake()
     {
@@ -67,6 +68,22 @@ public class PlayerAnimationStateController : MonoBehaviour
         HandleAiming();
 
 
+    }
+    public void CollectItem(Item newItem)
+    {
+        _items.Add(newItem);
+    }
+    public bool UseItem(string checkThisItem)
+    {
+        foreach (var item in _items)
+        {
+        if (item.getItemName() == checkThisItem)
+        {
+         return true;
+        }
+
+        }
+        return false;
     }
     private void FixedUpdate()
     {
@@ -178,7 +195,7 @@ public class PlayerAnimationStateController : MonoBehaviour
         {
             _animator.SetBool(_isAimingHash, false);
         }
-        if (_isAiming && _shootingPressed)
+        if (_isAiming && _canshoot == true && _shootingPressed)
         {
             _animator.SetBool(_isShootingHash, true);
         }

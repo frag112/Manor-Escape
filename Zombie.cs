@@ -13,7 +13,8 @@ public class Zombie : MonoBehaviour
     [SerializeField] private bool _attack = false;
     [SerializeField] private float _health;
     [SerializeField] private AudioSource _source;
-    [SerializeField] private AudioClip _aHit, _aStep, _aDead, _aPlayerSpotted, _aIdle;
+    [SerializeField] private AudioClip _aHit, _aStep, _aDead, _aPlayerSpotted, _aIdle, _aFighting;
+    [SerializeField] private musicmanager _manager;
     private void Start()
     {
         if (_attack)
@@ -62,6 +63,8 @@ public class Zombie : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             _source.PlayOneShot(_aPlayerSpotted);
+            _manager.SetActiveMusic(_aFighting);
+            _manager._fighting = true;
             MoveToTarget();
         }
     }
@@ -79,6 +82,8 @@ public class Zombie : MonoBehaviour
         _source.PlayOneShot(_aDead);
         gameObject.GetComponent<Collider>().enabled = false;
         _animator.SetBool("Dead", true);
+        _manager._fighting = false;
+        _manager.MusicStop();
         StopWalking();
         Destroy(this);
     }
